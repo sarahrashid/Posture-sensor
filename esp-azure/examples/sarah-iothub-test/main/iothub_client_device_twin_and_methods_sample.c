@@ -44,7 +44,7 @@ static const char *connectionString = CONFIG_IOTHUB_CONNECTION_STRING;
 //  Converts the desired properties of the Device Twin JSON blob received from IoT Hub into a PostureSensor object. - SR
 PostureSensor *parseFromJson(const char *json, DEVICE_TWIN_UPDATE_STATE update_state, PostureSensor *currentPostureSensor)
 {
-    PostureSensor *postureSensor = malloc(sizeof(PostureSensor)); // ? 
+    PostureSensor *postureSensor = malloc(sizeof(PostureSensor));
     postureSensor->desired_operating_state = currentPostureSensor->desired_operating_state;
     postureSensor->desired_threshold = currentPostureSensor->desired_threshold;
 
@@ -129,8 +129,6 @@ static void iothub_client_device_twin_and_methods_sample_run(void)
 #ifdef SAMPLE_HTTP
     protocol = HTTP_Protocol;
 #endif // SAMPLE_HTTP
-
-// can take all of these out right?
 
     if (IoTHub_Init() != 0)
     {

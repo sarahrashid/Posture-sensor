@@ -139,7 +139,6 @@ static void send_to_buzzer(int seconds_to_buzz)
     gpio_set_level(GPIO_OUTPUT_IO_BUZZER, GPIO_PULL_DOWN);
 }
 
-// function signatures (move to h files)
 extern int sendMessageToAzure(char *messageToSend, IOTHUB_DEVICE_CLIENT_LL_HANDLE iotHubDeviceClient);
 extern IOTHUB_DEVICE_CLIENT_LL_HANDLE getHubDeviceClient();
 extern void destroyDeviceClient(IOTHUB_DEVICE_CLIENT_LL_HANDLE iotHubDeviceClient);
@@ -201,14 +200,14 @@ void azure_task(void *pvParameter)
     vTaskDelete(NULL);
 }
 
-// what does a callback mean?
+// When device twin update comes in then trigger this function
 void deviceTwinCallback(DEVICE_TWIN_UPDATE_STATE update_state, const unsigned char *payLoad, size_t size, void *userContextCallback)
 {
     (void)update_state;
     (void)size;
     char payload2[size];
 
-    memcpy(payload2, payLoad, size); //?
+    memcpy(payload2, payLoad, size);
     PostureSensor* newPostureSensor = parseFromJson((const char *)payload2, update_state, postureSensorCurrent);
 
     if (newPostureSensor != NULL)
@@ -245,7 +244,6 @@ void app_main()
     }
     ESP_ERROR_CHECK(ret);
 
-    z(); // guessing this is a typoo?
     initialize_gpio();
 
     //Initialize ADC

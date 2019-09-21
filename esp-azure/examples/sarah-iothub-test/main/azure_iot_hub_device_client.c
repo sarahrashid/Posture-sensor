@@ -30,7 +30,6 @@ IOTHUB_DEVICE_CLIENT_LL_HANDLE getHubDeviceClient()
     // Creating IoT Hub Client Handle from Connection String
     IOTHUB_DEVICE_CLIENT_LL_HANDLE iotHubDeviceClient = IoTHubDeviceClient_LL_CreateFromConnectionString(connectionString, MQTT_Protocol);
     
-
     // Setting IoT Hub Device Client 
     // Enable verbose logging (e.g., for debugging).
     bool traceOn = true;
@@ -51,37 +50,31 @@ int sendMessageToAzure(char *messageToSend, IOTHUB_DEVICE_CLIENT_LL_HANDLE iotHu
         (void)printf("ERROR: iotHubDeviceClient is NULL!\r\n");
         (void)printf("Check IoT Hub Device Connection String in Config\r\n");
         return -1;
-    } // these elses not needed because -1 exits the statement. ALSO what do i need to dowmload to run this on my computer?
-    else
-    {
-        // Creating IoT Hub Message Byte Array
-        deviceMsgHandle = IoTHubMessage_CreateFromByteArray((const unsigned char *)messageToSend, strlen(messageToSend));
-        if (deviceMsgHandle == NULL)
-        {
-            (void)printf("ERROR: deviceMsgHandle is NULL! Create Msg Byte Array failed.\r\n");
-            return -1;
-        }
-        else
-        {
-            IoTHubMessage_SetContentEncodingSystemProperty(deviceMsgHandle, "utf-8");
-            IoTHubMessage_SetContentTypeSystemProperty(deviceMsgHandle, "application/json");
-            // Sending Message to IoT Hub
-            
-            azureSendMsgResult = IoTHubClient_LL_SendEventAsync(iotHubDeviceClient, deviceMsgHandle, NULL, NULL);
-
-            if (azureSendMsgResult != IOTHUB_CLIENT_OK)
-            {
-                (void)printf("ERROR: IoTHubClient_LL_SendEventAsync..........FAILED!\r\n");
-                return -1;
-            }
-            else
-            {
-                time_t sendTime = time(NULL);
-                (void)printf("SUCCESS: IoTHubClient_LL_SendEventAsync accepted message for transmission to IoT Hub.\r\n");
-                (void)printf("Message sent at %s\r\n", asctime(gmtime(&sendTime)));
-            }
-        }
     }
+
+    // Creating IoT Hub Message Byte Array
+    deviceMsgHandle = IoTHubMessage_CreateFromByteArray((const unsigned char *)messageToSend, strlen(messageToSend));
+    if (deviceMsgHandle == NULL)
+    {
+        (void)printf("ERROR: deviceMsgHandle is NULL! Create Msg Byte Array failed.\r\n");
+        return -1;
+    }
+
+    IoTHubMessage_SetContentEncodingSystemProperty(deviceMsgHandle, "utf-8");
+    IoTHubMessage_SetContentTypeSystemProperty(deviceMsgHandle, "application/json");
+    // Sending Message to IoT Hub
+    
+    azureSendMsgResult = IoTHubClient_LL_SendEventAsync(iotHubDeviceClient, deviceMsgHandle, NULL, NULL);
+
+    if (azureSendMsgResult != IOTHUB_CLIENT_OK)
+    {
+        (void)printf("ERROR: IoTHubClient_LL_SendEventAsync..........FAILED!\r\n");
+        return -1;
+    }
+
+    time_t sendTime = time(NULL);
+    (void)printf("SUCCESS: IoTHubClient_LL_SendEventAsync accepted message for transmission to IoT Hub.\r\n");
+    (void)printf("Message sent at %s\r\n", asctime(gmtime(&sendTime)));
 
     return 0;
 }
