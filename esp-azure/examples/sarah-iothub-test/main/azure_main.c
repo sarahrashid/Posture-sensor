@@ -244,6 +244,7 @@ void app_main()
     }
     ESP_ERROR_CHECK(ret);
 
+    initialize_wifi();
     initialize_gpio();
 
     //Initialize ADC
