@@ -10,8 +10,7 @@ TODO: Guide users through getting your code up and running on their own system. 
 3. Update build scripts to point to the correct folders
 4. Run Make and kconfig
 
-A picture of the inside of the box with electrical components (worn with belt clip):
-![Image of Box](https://imgur.com/hXOiTut)
+A picture of the inside of the box with electrical components is included in "Posture Sensor Schematic copy Labeled .pdf"
 
 How it looks to configure threshold and operating state in IoT Central: 
 ![Image of IoT Central](https://imgur.com/OkPHtp4)
